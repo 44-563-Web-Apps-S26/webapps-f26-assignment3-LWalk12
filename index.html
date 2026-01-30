@@ -77,5 +77,41 @@
 
         </table>
 
+        <hr>
+
+        <h1>CODING</h1>
+        <p>
+            This snippet reads chunks of data from and input and write to a destination using write().
+            The function returnsa boolean value based on the success of the operation
+        </p>
+        <a href="https://pieces.app/collections/nodejs">Source of the snippet</a>
+
+        <pre>
+            const http = require('http');
+            const fileSystem = require('fs');
+
+            http.createServer((request, response) => {
+	            // This opens up the writeable stream to `output`
+	            const writeStream = fileSystem.createWriteStream('./output');
+
+	            // This pipes the POST data to the file
+	            request.pipe(writeStream);
+
+	            // After all the data is saved, respond with a simple html form so they can post more data
+	            request.on('end', function() {
+		            response.writeHead(200, {
+			            "content-type": "text/html"
+    		        });
+	    	        response.end('[-- Insert generic html FORM element here --]');
+    	        });
+
+	            // This is here incase any errors occur
+    	        writeStream.on('error', function(err) {
+	            	console.log(err);
+	            });
+            }).listen(8080)
+        </pre>
+
+
     </body>
 </html>
